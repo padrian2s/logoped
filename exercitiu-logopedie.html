@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exerciții de Logopedie - Pregătirea pentru R</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .timer-section {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .timer-display {
+            font-size: 3.5em;
+            font-weight: bold;
+            color: #667eea;
+            margin: 15px 0;
+        }
+
+        .timer-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .exercise-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .exercise-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .exercise-card.active {
+            border: 3px solid #667eea;
+            background: linear-gradient(135deg, #f5f7ff 0%, #fff 100%);
+        }
+
+        .exercise-card.completed {
+            border: 3px solid #4CAF50;
+        }
+
+        .exercise-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .exercise-number {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .exercise-card.completed .exercise-number {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+        }
+
+        .exercise-title {
+            font-size: 1.4em;
+            color: #333;
+        }
+
+        .exercise-emoji {
+            font-size: 2em;
+        }
+
+        .exercise-description {
+            color: #666;
+            line-height: 1.7;
+            margin-bottom: 20px;
+            padding-left: 65px;
+        }
+
+        .exercise-demo {
+            background: #f8f9ff;
+            border-radius: 15px;
+            padding: 20px;
+            margin-left: 65px;
+            text-align: center;
+        }
+
+        .demo-text {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+            letter-spacing: 5px;
+            margin-bottom: 15px;
+        }
+
+        .demo-text.animating span {
+            display: inline-block;
+            animation: bounce 0.5s ease;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .speed-control {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .speed-control label {
+            color: #666;
+        }
+
+        .speed-control input[type="range"] {
+            width: 150px;
+            cursor: pointer;
+        }
+
+        .practice-btn {
+            margin-top: 15px;
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #fff9e6 0%, #fff3cd 100%);
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            border-radius: 0 15px 15px 0;
+            margin: 25px 0;
+        }
+
+        .tip-box h3 {
+            color: #856404;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tip-box p {
+            color: #856404;
+            line-height: 1.6;
+        }
+
+        .test-section {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+
+        .test-section h3 {
+            color: #2e7d32;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .test-words {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .test-word {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #2e7d32;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .test-word:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .test-word .highlight {
+            color: #d32f2f;
+            text-decoration: underline;
+        }
+
+        .tongue-guide {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin: 25px 0;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .tongue-guide h3 {
+            color: #333;
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .tongue-diagram {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .tongue-position {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .tongue-visual {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .wrong-position .tongue-visual {
+            background: #ffebee;
+            border: 3px solid #f44336;
+        }
+
+        .correct-position .tongue-visual {
+            background: #e8f5e9;
+            border: 3px solid #4CAF50;
+        }
+
+        .tongue-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .wrong-position .tongue-label {
+            color: #f44336;
+        }
+
+        .correct-position .tongue-label {
+            color: #4CAF50;
+        }
+
+        .tongue-desc {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .motor-trick {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        .motor-trick h3 {
+            color: #1565c0;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+        }
+
+        .motor-sounds {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .motor-sound {
+            background: white;
+            padding: 25px 35px;
+            border-radius: 15px;
+            font-size: 2.2em;
+            font-weight: bold;
+            color: #1565c0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .motor-sound:hover {
+            transform: scale(1.1);
+            background: #1565c0;
+            color: white;
+        }
+
+        .motor-sound.vibrating {
+            animation: vibrate 0.1s linear infinite;
+        }
+
+        @keyframes vibrate {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-2px); }
+            75% { transform: translateX(2px); }
+        }
+
+        .progress-tracker {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-top: 25px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .progress-header h3 {
+            color: #333;
+        }
+
+        .progress-bar {
+            height: 20px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .checkbox-list {
+            margin-top: 20px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .checkbox-item:hover {
+            background: #f5f5f5;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+        }
+
+        .checkbox-item label {
+            cursor: pointer;
+            color: #333;
+        }
+
+        .checkbox-item.checked label {
+            text-decoration: line-through;
+            color: #888;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 30px;
+            padding: 20px;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 600px) {
+            .exercise-description, .exercise-demo {
+                margin-left: 0;
+                padding-left: 0;
+            }
+
+            .demo-text {
+                font-size: 1.8em;
+                letter-spacing: 2px;
+            }
+
+            .timer-display {
+                font-size: 2.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🗣️ Exerciții de Logopedie</h1>
+            <p>Săptămâna 1-2: Pregătirea limbii pentru sunetul R</p>
+        </header>
+
+        <div class="timer-section">
+            <h3>⏱️ Cronometru Sesiune (5-10 minute)</h3>
+            <div class="timer-display" id="timer">05:00</div>
+            <div class="timer-buttons">
+                <button class="btn btn-primary" onclick="startTimer()">▶️ Start</button>
+                <button class="btn btn-secondary" onclick="pauseTimer()">⏸️ Pauză</button>
+                <button class="btn btn-secondary" onclick="resetTimer()">🔄 Reset</button>
+                <select class="btn btn-secondary" onchange="setDuration(this.value)">
+                    <option value="5">5 minute</option>
+                    <option value="7">7 minute</option>
+                    <option value="10">10 minute</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="exercise-card" id="ex1">
+            <div class="exercise-header">
+                <div class="exercise-number">1</div>
+                <span class="exercise-emoji">🐴</span>
+                <h2 class="exercise-title">Clăcănitul</h2>
+            </div>
+            <p class="exercise-description">
+                Fă sunetul de "cal" cu limba lipită de cerul gurii. Acest exercițiu dezmorțește limba
+                și o face mai mobilă. Lipește limba de cerul gurii și trage-o în jos rapid pentru a
+                produce sunetul de copite.
+            </p>
+            <div class="exercise-demo">
+                <div class="demo-text" id="clack-demo">🐴 CLAC CLAC CLAC</div>
+                <button class="btn btn-primary practice-btn" onclick="animateClack()">
+                    🎯 Exersează acum
+                </button>
+            </div>
+        </div>
+
+        <div class="exercise-card" id="ex2">
+            <div class="exercise-header">
+                <div class="exercise-number">2</div>
+                <span class="exercise-emoji">👅</span>
+                <h2 class="exercise-title">Țuguie și Întinde</h2>
+            </div>
+            <p class="exercise-description">
+                Gimnastică facială - mișcă limba în toate direcțiile: sus, jos, stânga, dreapta,
+                în cerc. Scoate limba și ține-o dreaptă, apoi țuguie-o (fă-o ascuțită) și întinde-o
+                (fă-o lată).
+            </p>
+            <div class="exercise-demo">
+                <div class="demo-text" id="tongue-demo">
+                    <span id="tongue-arrow">👅 ⬆️</span>
+                </div>
+                <button class="btn btn-primary practice-btn" onclick="animateTongue()">
+                    🎯 Urmărește direcțiile
+                </button>
+            </div>
+        </div>
+
+        <div class="exercise-card" id="ex3">
+            <div class="exercise-header">
+                <div class="exercise-number">3</div>
+                <span class="exercise-emoji">🎵</span>
+                <h2 class="exercise-title">Repetă "LA-LA-LA-LA"</h2>
+            </div>
+            <p class="exercise-description">
+                Repetă rapid "la-la-la-la" - acest exercițiu antrenează vârful limbii să urce
+                în poziția corectă. Accelerează treptat menținând claritatea sunetului.
+            </p>
+            <div class="exercise-demo">
+                <div class="demo-text" id="la-demo">LA-LA-LA-LA</div>
+                <div class="speed-control">
+                    <label>Viteză:</label>
+                    <input type="range" id="la-speed" min="1" max="5" value="1">
+                    <span id="la-speed-label">Lent</span>
+                </div>
+                <button class="btn btn-primary practice-btn" onclick="animateLa()">
+                    🎯 Exersează cu ritm
+                </button>
+            </div>
+        </div>
+
+        <div class="exercise-card" id="ex4">
+            <div class="exercise-header">
+                <div class="exercise-number">4</div>
+                <span class="exercise-emoji">🥁</span>
+                <h2 class="exercise-title">Repetă "DA-DA" și "TA-TA"</h2>
+            </div>
+            <p class="exercise-description">
+                Spune "da-da-da-da" și "ta-ta-ta-ta" - accelerează treptat până simți o
+                ușoară vibrație la vârful limbii. Aceasta este pregătirea pentru R!
+            </p>
+            <div class="exercise-demo">
+                <div class="demo-text" id="data-demo">DA-DA-DA-DA</div>
+                <div class="speed-control">
+                    <button class="btn btn-secondary" onclick="switchSound('da')" id="btn-da" style="background: #667eea; color: white;">DA</button>
+                    <button class="btn btn-secondary" onclick="switchSound('ta')" id="btn-ta">TA</button>
+                </div>
+                <div class="speed-control">
+                    <label>Viteză:</label>
+                    <input type="range" id="data-speed" min="1" max="5" value="1">
+                    <span id="data-speed-label">Lent</span>
+                </div>
+                <button class="btn btn-primary practice-btn" onclick="animateData()">
+                    🎯 Exersează cu ritm
+                </button>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>✅ Testul Simplu</h3>
+            <p>Spune aceste cuvinte cu accent pe silaba evidențiată. Simte unde e vârful limbii când zici D - exact acolo trebuie să vibreze pentru R!</p>
+            <div class="test-words">
+                <div class="test-word" onclick="highlightWord(this)">
+                    pa<span class="highlight">DAM</span>
+                </div>
+                <div class="test-word" onclick="highlightWord(this)">
+                    pa<span class="highlight">DRAM</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="tongue-guide">
+            <h3>👅 Poziția Corectă a Limbii pentru R</h3>
+            <div class="tongue-diagram">
+                <div class="tongue-position wrong-position">
+                    <div class="tongue-visual">😮</div>
+                    <div class="tongue-label">❌ R Gutural</div>
+                    <div class="tongue-desc">Vibrație din gât<br>(franțuzesc/nemțesc)</div>
+                </div>
+                <div class="tongue-position correct-position">
+                    <div class="tongue-visual">😬</div>
+                    <div class="tongue-label">✅ R Românesc</div>
+                    <div class="tongue-desc">Vârful limbii sus,<br>aproape de dinți</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="motor-trick">
+            <h3>🚗 Trucul cu Motorul</h3>
+            <p>Încearcă să imiți sunetul unui motor - chiar dacă iese forțat sau comic, antrenează mușchii potriviți!</p>
+            <div class="motor-sounds">
+                <div class="motor-sound" onclick="vibrateMotor(this)">BRRRR</div>
+                <div class="motor-sound" onclick="vibrateMotor(this)">TRRRR</div>
+            </div>
+            <p style="margin-top: 15px; color: #1565c0;">Click pe sunete pentru efect de vibrație!</p>
+        </div>
+
+        <div class="tip-box">
+            <h3>💡 Sfaturi Importante</h3>
+            <p>
+                • Exersează zilnic, 5-10 minute - consistența bate intensitatea!<br>
+                • Nu te grăbi - exercițiile trebuie făcute corect, nu rapid<br>
+                • Folosește o oglindă pentru a vedea mișcările limbii<br>
+                • Dacă simți oboseală în mușchii limbii, faci treabă bună!
+            </p>
+        </div>
+
+        <div class="progress-tracker">
+            <div class="progress-header">
+                <h3>📊 Progresul de Azi</h3>
+                <span id="progress-percent">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+            </div>
+            <div class="checkbox-list">
+                <div class="checkbox-item" onclick="toggleCheck(this)">
+                    <input type="checkbox" id="check1">
+                    <label for="check1">🐴 Am făcut exercițiul de clăcănit</label>
+                </div>
+                <div class="checkbox-item" onclick="toggleCheck(this)">
+                    <input type="checkbox" id="check2">
+                    <label for="check2">👅 Am făcut gimnastica limbii</label>
+                </div>
+                <div class="checkbox-item" onclick="toggleCheck(this)">
+                    <input type="checkbox" id="check3">
+                    <label for="check3">🎵 Am repetat LA-LA-LA-LA</label>
+                </div>
+                <div class="checkbox-item" onclick="toggleCheck(this)">
+                    <input type="checkbox" id="check4">
+                    <label for="check4">🥁 Am repetat DA-DA și TA-TA</label>
+                </div>
+                <div class="checkbox-item" onclick="toggleCheck(this)">
+                    <input type="checkbox" id="check5">
+                    <label for="check5">✅ Am făcut testul paDAM / paDRAM</label>
+                </div>
+                <div class="checkbox-item" onclick="toggleCheck(this)">
+                    <input type="checkbox" id="check6">
+                    <label for="check6">🚗 Am încercat sunetul de motor</label>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>🌟 Continuă să exersezi zilnic! Peste o săptămână vom trece la pasul următor.</p>
+            <p style="margin-top: 10px; font-size: 0.9em;">Răbdare și perseverență!</p>
+        </footer>
+    </div>
+
+    <script>
+        // Timer functionality
+        let timerInterval;
+        let timeLeft = 300; // 5 minutes in seconds
+        let isRunning = false;
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timer').textContent =
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function startTimer() {
+            if (!isRunning && timeLeft > 0) {
+                isRunning = true;
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    updateTimerDisplay();
+                    if (timeLeft <= 0) {
+                        pauseTimer();
+                        alert('🎉 Felicitări! Ai terminat sesiunea de azi!');
+                    }
+                }, 1000);
+            }
+        }
+
+        function pauseTimer() {
+            isRunning = false;
+            clearInterval(timerInterval);
+        }
+
+        function resetTimer() {
+            pauseTimer();
+            const select = document.querySelector('select');
+            timeLeft = parseInt(select.value) * 60;
+            updateTimerDisplay();
+        }
+
+        function setDuration(minutes) {
+            pauseTimer();
+            timeLeft = parseInt(minutes) * 60;
+            updateTimerDisplay();
+        }
+
+        // Exercise animations
+        function animateClack() {
+            const demo = document.getElementById('clack-demo');
+            let count = 0;
+            const sounds = ['🐴 CLAC!', '🐴 CLAC! CLAC!', '🐴 CLAC! CLAC! CLAC!'];
+
+            const interval = setInterval(() => {
+                demo.textContent = sounds[count % 3];
+                demo.style.transform = 'scale(1.1)';
+                setTimeout(() => demo.style.transform = 'scale(1)', 150);
+                count++;
+                if (count >= 9) {
+                    clearInterval(interval);
+                    demo.textContent = '🐴 CLAC CLAC CLAC';
+                }
+            }, 400);
+        }
+
+        function animateTongue() {
+            const arrow = document.getElementById('tongue-arrow');
+            const directions = ['👅 ⬆️ SUS', '👅 ⬇️ JOS', '👅 ⬅️ STÂNGA', '👅 ➡️ DREAPTA', '👅 🔄 CERC'];
+            let index = 0;
+
+            const interval = setInterval(() => {
+                arrow.textContent = directions[index];
+                arrow.style.transform = 'scale(1.1)';
+                setTimeout(() => arrow.style.transform = 'scale(1)', 200);
+                index++;
+                if (index >= directions.length * 2) {
+                    clearInterval(interval);
+                    arrow.textContent = '👅 ⬆️';
+                }
+            }, 800);
+        }
+
+        // Speed control labels
+        document.getElementById('la-speed').addEventListener('input', function() {
+            const labels = ['Lent', 'Moderat', 'Normal', 'Rapid', 'Foarte rapid'];
+            document.getElementById('la-speed-label').textContent = labels[this.value - 1];
+        });
+
+        document.getElementById('data-speed').addEventListener('input', function() {
+            const labels = ['Lent', 'Moderat', 'Normal', 'Rapid', 'Foarte rapid'];
+            document.getElementById('data-speed-label').textContent = labels[this.value - 1];
+        });
+
+        function animateLa() {
+            const demo = document.getElementById('la-demo');
+            const speed = 600 - (document.getElementById('la-speed').value * 100);
+            let count = 0;
+
+            const interval = setInterval(() => {
+                const syllables = count % 2 === 0 ? 'LA' : '-LA';
+                demo.innerHTML = `<span style="color: #764ba2; transform: scale(1.2); display: inline-block;">${syllables}</span>`;
+                setTimeout(() => {
+                    demo.innerHTML = 'LA-LA-LA-LA';
+                }, speed / 2);
+                count++;
+                if (count >= 16) {
+                    clearInterval(interval);
+                    demo.textContent = 'LA-LA-LA-LA';
+                }
+            }, speed);
+        }
+
+        let currentSound = 'da';
+        function switchSound(sound) {
+            currentSound = sound;
+            document.getElementById('data-demo').textContent = sound.toUpperCase() + '-' + sound.toUpperCase() + '-' + sound.toUpperCase() + '-' + sound.toUpperCase();
+            document.getElementById('btn-da').style.background = sound === 'da' ? '#667eea' : '#f0f0f0';
+            document.getElementById('btn-da').style.color = sound === 'da' ? 'white' : '#333';
+            document.getElementById('btn-ta').style.background = sound === 'ta' ? '#667eea' : '#f0f0f0';
+            document.getElementById('btn-ta').style.color = sound === 'ta' ? 'white' : '#333';
+        }
+
+        function animateData() {
+            const demo = document.getElementById('data-demo');
+            const speed = 600 - (document.getElementById('data-speed').value * 100);
+            const sound = currentSound.toUpperCase();
+            let count = 0;
+
+            const interval = setInterval(() => {
+                demo.innerHTML = `<span style="color: #764ba2; font-size: 1.2em;">${sound}!</span>`;
+                setTimeout(() => {
+                    demo.textContent = `${sound}-${sound}-${sound}-${sound}`;
+                }, speed / 2);
+                count++;
+                if (count >= 16) {
+                    clearInterval(interval);
+                    demo.textContent = `${sound}-${sound}-${sound}-${sound}`;
+                }
+            }, speed);
+        }
+
+        function highlightWord(element) {
+            element.style.transform = 'scale(1.15)';
+            element.style.background = '#c8e6c9';
+            setTimeout(() => {
+                element.style.transform = 'scale(1)';
+                element.style.background = 'white';
+            }, 500);
+        }
+
+        function vibrateMotor(element) {
+            element.classList.add('vibrating');
+            element.style.background = '#1565c0';
+            element.style.color = 'white';
+            setTimeout(() => {
+                element.classList.remove('vibrating');
+                element.style.background = 'white';
+                element.style.color = '#1565c0';
+            }, 2000);
+        }
+
+        function toggleCheck(item) {
+            const checkbox = item.querySelector('input[type="checkbox"]');
+            checkbox.checked = !checkbox.checked;
+            item.classList.toggle('checked', checkbox.checked);
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('.checkbox-item input[type="checkbox"]');
+            const checked = document.querySelectorAll('.checkbox-item input[type="checkbox"]:checked').length;
+            const percent = Math.round((checked / checkboxes.length) * 100);
+
+            document.getElementById('progress-percent').textContent = percent + '%';
+            document.getElementById('progress-fill').style.width = percent + '%';
+
+            // Save progress to localStorage
+            localStorage.setItem('logoped-progress-' + new Date().toDateString(), JSON.stringify({
+                checked: Array.from(checkboxes).map(cb => cb.checked),
+                percent: percent
+            }));
+        }
+
+        // Load today's progress on page load
+        window.onload = function() {
+            const saved = localStorage.getItem('logoped-progress-' + new Date().toDateString());
+            if (saved) {
+                const data = JSON.parse(saved);
+                const checkboxes = document.querySelectorAll('.checkbox-item input[type="checkbox"]');
+                data.checked.forEach((isChecked, index) => {
+                    if (checkboxes[index]) {
+                        checkboxes[index].checked = isChecked;
+                        checkboxes[index].closest('.checkbox-item').classList.toggle('checked', isChecked);
+                    }
+                });
+                updateProgress();
+            }
+        };
+    </script>
+</body>
+</html>
